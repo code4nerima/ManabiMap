@@ -163,11 +163,30 @@
 			}
 
 			let icon = null ;
-
-			let body = data["body"] ;
 	
 			let marker = L.marker([lat, lng]) ;
 
+			let name = data["name"] ;
+			let postalCode = data["postalCode"] ;
+			let address = data["address"] ;
+			let webPage = data["webPage"] ;
+			
+
+			let body = '<div class="h4">' + name + '</div>' ;
+			
+			body += '<div class="row my-3"><div class="col">' ;
+			body += type ;
+			body += '</div></div>' ;
+			
+			body += '<div class="row my-3"><div class="col">' ;
+			body += '〒' + postalCode + '<br />' ;
+			body += '' + address + '<br />' ;
+			body += '</div></div>' ;
+			body += '<hr />' ;
+			body += '<div class="row my-3"><div class="col">' ;
+			body += '<a href="' + webPage + '">' + webPage + '</a>';
+			body += '</div></div>' ;
+			
 			marker.bindPopup(body) ;
 
 			marker.addTo(map) ;
@@ -196,6 +215,7 @@
 		let lngIndex = 0 ;
 		let nameIndex = 0 ;
 		let nameKanaIndex = 0 ;
+		let postalCodeIndex = 0 ;
 		let addressIndex = 0 ;
 		let phoneNumberIndex = 0 ;
 		let webPageIndex = 0 ;
@@ -209,6 +229,7 @@
 				lngIndex = elements.indexOf("経度") ;
 				nameIndex = elements.indexOf("名前") ;
 				nameKanaIndex = elements.indexOf("名前（よみがな）") ;
+				postalCodeIndex = elements.indexOf("郵便番号") ;
 				addressIndex = elements.indexOf("住所") ;
 				phoneNumberIndex = elements.indexOf("電話番号") ;
 				webPageIndex = elements.indexOf("ホームページのURL") ;
@@ -226,6 +247,7 @@
 
 				data["name"] = elements[nameIndex];
 				data["nameKana"] = elements[nameKanaIndex];
+				data["postalCode"] = elements[postalCodeIndex];
 				data["address"] = elements[addressIndex];
 				data["phoneNumber"] = elements[phoneNumberIndex];
 				data["webPage"] = elements[webPageIndex];
