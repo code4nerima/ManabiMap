@@ -123,8 +123,6 @@
 		let storedLatlng = localStorage.getItem("latlng") ;
 		let storedZoom = localStorage.getItem("zoom") ;
 
-		console.log(storedLatlng) ;
-		console.log(storedZoom) ;
 		if (storedLatlng != undefined) {
 			latlng = JSON.parse(storedLatlng) ;
 		}
@@ -159,7 +157,7 @@
 		map.on('moveend', function(e) {
 			saveCurrentMap() ;
 		}) ;
-		
+
 		let dataArray = await getDataArray() ;
 
 		for (let key in dataArray) {
@@ -263,9 +261,6 @@
 		
 		localStorage.setItem("latlng", JSON.stringify([c.lat, c.lng])) ;
 		localStorage.setItem("zoom", z) ;
-
-		console.log("saveCurrentMap :" + c) ;
-		console.log("saveCurrentMap :" + z) ;
 	}
 </script>
 </body>
