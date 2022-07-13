@@ -123,6 +123,8 @@
 		let storedLatlng = localStorage.getItem("latlng") ;
 		let storedZoom = localStorage.getItem("zoom") ;
 
+		console.log(storedLatlng) ;
+		console.log(storedZoom) ;
 		if (storedLatlng != undefined) {
 			latlng = JSON.parse(storedLatlng) ;
 		}
@@ -150,6 +152,14 @@
 			}
 		).addTo(map);
 
+		map.on('zoomend', function(e) {
+			saveCurrentMap() ;
+		}) ;
+
+		map.on('moveend', function(e) {
+			saveCurrentMap() ;
+		}) ;
+		
 		let dataArray = await getDataArray() ;
 
 		for (let key in dataArray) {
@@ -187,14 +197,6 @@
 
 			marker.addTo(map) ;
 		}
-
-		map.on('zoomend', function(e) {
-			saveCurrentMap() ;
-		}) ;
-
-		map.on('moveend', function(e) {
-			saveCurrentMap() ;
-		}) ;
 	}
 
 	async function getDataArray() {
@@ -261,6 +263,9 @@
 		
 		localStorage.setItem("latlng", JSON.stringify([c.lat, c.lng])) ;
 		localStorage.setItem("zoom", z) ;
+
+		console.log("saveCurrentMap :" + c) ;
+		console.log("saveCurrentMap :" + z) ;
 	}
 </script>
 </body>
