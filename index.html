@@ -175,10 +175,6 @@
 			let body = '<div class="h4">' + name + '</div>' ;
 			
 			body += '<div class="row my-3"><div class="col">' ;
-			body += type ;
-			body += '</div></div>' ;
-			
-			body += '<div class="row my-3"><div class="col">' ;
 			body += '〒' + postalCode + '<br />' ;
 			body += '' + address + '<br />' ;
 			body += '</div></div>' ;
@@ -186,7 +182,7 @@
 			body += '<div class="row my-3"><div class="col">' ;
 			body += '<a href="' + webPage + '">' + webPage + '</a>';
 			body += '</div></div>' ;
-			
+
 			marker.bindPopup(body) ;
 
 			marker.addTo(map) ;
