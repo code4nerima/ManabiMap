@@ -115,8 +115,6 @@
 
 		$(window).resize(resizeFunction);
 
-		localStorage.clear() ;
-
 		let latlng = [35.737797, 139.653916];
 		let zoom = 13 ;
 
@@ -178,7 +176,7 @@
 			let postalCode = data["postalCode"] ;
 			let address = data["address"] ;
 			let webPage = data["webPage"] ;
-			
+			let details = data["details"] ;
 
 			let body = '<div class="h4">' + name + '</div>' ;
 			
@@ -189,6 +187,9 @@
 			body += '<hr />' ;
 			body += '<div class="row my-3"><div class="col">' ;
 			body += '<a href="' + webPage + '" target="_blank" rel="noopener">' + webPage + '</a>';
+			body += '</div></div>' ;
+			body += '<div class="row my-3"><div class="col">' ;
+			body += details ;
 			body += '</div></div>' ;
 
 			marker.bindPopup(body) ;
@@ -215,6 +216,7 @@
 		let addressIndex = 0 ;
 		let phoneNumberIndex = 0 ;
 		let webPageIndex = 0 ;
+		let detailsIndex = 0 ;
 		let headers = null ;
 
 		for (let key in elementsArray) {
@@ -229,6 +231,7 @@
 				addressIndex = elements.indexOf("住所") ;
 				phoneNumberIndex = elements.indexOf("電話番号") ;
 				webPageIndex = elements.indexOf("ホームページのURL") ;
+				detailsIndex = elements.indexOf("紹介文") ;
 				headers = elements ;
 			} else {
 				let data = {} ;
@@ -247,7 +250,8 @@
 				data["address"] = elements[addressIndex];
 				data["phoneNumber"] = elements[phoneNumberIndex];
 				data["webPage"] = elements[webPageIndex];
-
+				data["details"] = elements[detailsIndex];
+				
 				dataArray.push(data) ;
 			}
 		}
