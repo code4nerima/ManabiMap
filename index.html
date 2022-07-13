@@ -20,7 +20,7 @@
 	<title>まなびマップ</title>
 
 	<meta property="og:site_name" content="まなびマップ"/>
-	<meta property="og:url" content="https://code4nerima.github.io/OpenDataViewer/"/>
+	<meta property="og:url" content="https://code4nerima.github.io/ManabiMap/"/>
 	<meta property="og:title" content="まなびマップ"/>
 	<meta property="og:type" content="Website" />
 	<meta property="og:description" content=""/>
@@ -55,12 +55,12 @@
 		<div class="col">
 			<div class="row mb-1">
 				<div class="col">
-					<h3>練馬区オープンデータビューワー</h3>
+					<h3>まなびマップ</h3>
 				</div>
 			</div>
 			<div class="row mb-3">
 				<div class="col small">
-					東京都練馬区のオープンデータで位置情報が入っているものを読み込みマッピングして表示します。
+					まなびマップ（サンプル）
 				</div>
 			</div>
 		</div>
@@ -185,16 +185,20 @@
 	async function getDataArray() {
 		let dataArray = [] ;
 	
-		let res = await fetch("https://www.city.nerima.tokyo.jp/kusei/tokei/opendata/opendatasite/hokenfukushi/aed.files/131202_aed.csv") ;
+		let res = await fetch("https://docs.google.com/spreadsheets/d/1c5y9Km_RWI5tf7CmJXm_gnT5OqYQGBls8_f__dNg9Fs/export?format=csv") ;
 
 		const ab = await res.arrayBuffer() ;
-		const td = new TextDecoder("Shift_JIS") ;
+		const td = new TextDecoder("UTF8") ;
 
 		let elementsArray = convertToArray(td.decode(ab)) ;
 
 		let latIndex = 0 ;
 		let lngIndex = 0 ;
 		let nameIndex = 0 ;
+		let nameKanaIndex = 0 ;
+		let addressIndex = 0 ;
+		let phoneNumberIndex = 0 ;
+		let webPageIndex = 0 ;
 		let headers = null ;
 
 		for (let key in elementsArray) {
@@ -203,8 +207,11 @@
 			if (key == 0) {
 				latIndex = elements.indexOf("緯度") ;
 				lngIndex = elements.indexOf("経度") ;
-				nameIndex = elements.indexOf("名称") ;
-			
+				nameIndex = elements.indexOf("名前") ;
+				nameKanaIndex = elements.indexOf("名前（よみがな）") ;
+				addressIndex = elements.indexOf("住所") ;
+				phoneNumberIndex = elements.indexOf("電話番号") ;
+				webPageIndex = elements.indexOf("ホームページのURL") ;
 				headers = elements ;
 			} else {
 				let data = {} ;
@@ -217,27 +224,11 @@
 					data["lng"] = Number(elements[lngIndex])	;
 				}
 
-				let name = elements[nameIndex] ;
-
-				let body = "<h3>" + name + "</h3>" ;
-
-				/*
-				body += "<table>" ;
-
-				for (let i=0; i<headers.length; i++) {
-					let header = headers[i] ;
-					let element = elements[i] ;
-
-					body += "<tr>" ;
-					body += "<td>" + header + "</td>" ;
-					body += "<td>" + element + "</td>" ;
-					body += "</tr>" ;
-				}
-
-				body += "</table>" ;
-				*/
-				
-				data["body"] = body ;
+				data["name"] = elements[nameIndex];
+				data["nameKana"] = elements[nameKanaIndex];
+				data["address"] = elements[addressIndex];
+				data["phoneNumber"] = elements[phoneNumberIndex];
+				data["webPage"] = elements[webPageIndex];
 
 				dataArray.push(data) ;
 			}
